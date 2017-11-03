@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MisroserviceSample.Models;
-using MisroserviceSample.Options;
-using MisroserviceSample.Services;
+using MicroserviceSample.Models;
+using MicroserviceSample.Options;
+using MicroserviceSample.Services;
 using Newtonsoft.Json;
 
-namespace MisroserviceSample
+namespace MicroserviceSample
 {
     public class Startup
     {

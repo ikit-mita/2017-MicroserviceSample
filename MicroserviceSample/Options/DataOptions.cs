@@ -1,4 +1,4 @@
-﻿namespace MisroserviceSample.Options
+﻿namespace MicroserviceSample.Options
 {
     public class DataOptions
     {

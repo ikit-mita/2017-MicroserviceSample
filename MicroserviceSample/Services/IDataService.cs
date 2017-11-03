@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace MisroserviceSample.Services
+namespace MicroserviceSample.Services
 {
     public interface IDataService
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using MisroserviceSample.Options;
+using MicroserviceSample.Options;
 
-namespace MisroserviceSample.Services
+namespace MicroserviceSample.Services
 {
     public class DataService : IDataService
     {

@@ -1,4 +1,4 @@
-﻿namespace MisroserviceSample.Models
+﻿namespace MicroserviceSample.Models
 {
     public class Model
     {

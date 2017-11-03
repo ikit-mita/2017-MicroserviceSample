@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "MisroserviceSample": {
+    "MicroserviceSample": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace MisroserviceSample
+namespace MicroserviceSample
 {
     public static class Extensions
     {
