@@ -10,6 +10,7 @@ using MicroserviceSample.Models;
 using MicroserviceSample.Options;
 using MicroserviceSample.Services;
 using Newtonsoft.Json;
+using MicroserviceSample.Middlewares;
 
 namespace MicroserviceSample
 {
@@ -51,30 +52,13 @@ namespace MicroserviceSample
             app.UseStaticFiles();
             app.Use(ValidateMethod);
 
-            app.MapMethod(HttpMethods.Get, ProcessGet);
+            app.MapMethod(HttpMethods.Get, app1 => app1.UseMiddleware<GetDataMiddleware>());
             app.MapMethod(HttpMethods.Post, ProcessPost);
         }
 
         private void ProcessPost(IApplicationBuilder app)
         {
-            app.Run(async (context) =>
-            {
-                var service = context.RequestServices.GetService<IDataService>();
-                var model = await context.Request.ReadJsonAsync<Model>();
-                await service.SaveDataAsync(model.Name);
-            });
-        }
-
-        private void ProcessGet(IApplicationBuilder app)
-        {
-            app.Run(async (context) =>
-            {
-                var service = context.RequestServices.GetService<IDataService>();
-                string data = await service.GetDataAsync();
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(new {
-                    Name = data
-                }));
-            });
+            app.UseMiddleware<PostDataMiddleware>();
         }
 
         private Task ValidateMethod(HttpContext context, Func<Task> next)
