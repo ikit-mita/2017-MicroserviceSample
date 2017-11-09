@@ -17,7 +17,10 @@ namespace MicroserviceSample.Middlewares
             string data = await dataService.GetDataAsync();
             await context.Response.WriteAsync(JsonConvert.SerializeObject(new
             {
-                Name = data
+                Name = data,
+                User = context.User.Identity.IsAuthenticated
+                    ? context.User.Identity.Name
+                    : "anon"
             }));
         }
     }

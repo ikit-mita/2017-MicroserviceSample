@@ -11,6 +11,8 @@ using MicroserviceSample.Options;
 using MicroserviceSample.Services;
 using Newtonsoft.Json;
 using MicroserviceSample.Middlewares;
+using MicroserviceSample.SimpleAuth;
+using Microsoft.AspNetCore.Authentication;
 
 namespace MicroserviceSample
 {
@@ -39,6 +41,13 @@ namespace MicroserviceSample
             services.AddSingleton<IDataService, DataService>();
             services.AddOptions();
             services.Configure<DataOptions>(Configuration.GetSection("Data"));
+            services.Configure<SimpleAuthOptions>(Configuration.GetSection("SimpleAuth"));
+            services.AddAuthentication(SimpleAuthDefaults.AuthenticationScheme)
+                .AddScheme<AuthenticationSchemeOptions, SimpleAuthHandler>(
+                    SimpleAuthDefaults.AuthenticationScheme,
+                    SimpleAuthDefaults.AuthenticationScheme,
+                    _ => { }
+                );
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -48,9 +57,12 @@ namespace MicroserviceSample
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Use(Timer);
-            app.UseStaticFiles();
-            app.Use(ValidateMethod);
+            app
+                .Use(Timer)
+                .UseStaticFiles()
+                .Use(ValidateMethod)
+                .UseAuthentication()
+                ;
 
             app.MapMethod(HttpMethods.Get, app1 => app1.UseMiddleware<GetDataMiddleware>());
             app.MapMethod(HttpMethods.Post, ProcessPost);
@@ -58,7 +70,9 @@ namespace MicroserviceSample
 
         private void ProcessPost(IApplicationBuilder app)
         {
-            app.UseMiddleware<PostDataMiddleware>();
+            app
+                .UseMiddleware<IsAuthenticatedMiddleware>()
+                .UseMiddleware<PostDataMiddleware>();
         }
 
         private Task ValidateMethod(HttpContext context, Func<Task> next)

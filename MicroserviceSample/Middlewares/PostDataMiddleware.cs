@@ -11,7 +11,7 @@ namespace MicroserviceSample.Middlewares
         public async Task Invoke(HttpContext context, IDataService dataService)
         {
             var model = await context.Request.ReadJsonAsync<Model>();
-            await dataService.SaveDataAsync(model.Name);
+            await dataService.SaveDataAsync($"{context.User.Identity.Name}: {model.Name}");
         }
 
     }
